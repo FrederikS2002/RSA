@@ -165,36 +165,25 @@ public class RSA {
     }
 
     private long calculateA() {
-        return ((long) (this.p - 1) * (this.q - 1));
+        return ((this.p - 1) * (this.q - 1));
     }
 
     private long calculateN() {
-        return ((long) this.q * this.p);
+        return (this.q * this.p);
     }
 
     private long checkE() {
-        boolean noResult = true;
         long biggerNumber = Math.max(this.p, this.q);
-        long rand = this.generateE(biggerNumber);
-        while (noResult) {
+        long rand = RSA.nextPrime(biggerNumber);
+        while (true) {
             if (RSA.ggt(rand, this.a) == 1) {
-                noResult = false;
+                break;
             } else {
-                rand = this.generateE(rand);
+                rand = RSA.nextPrime(rand);
             }
         }
         return rand;
     }
-
-    private long generateE(long number) {
-        boolean isPrimeNumber = false;
-        while (!isPrimeNumber) {
-            number = RSA.nextPrime(number);
-            isPrimeNumber = RSA.isPrime(number);
-        }
-        return number;
-    }
-
     private long calculateD() {
         long d = 0;
         while (this.e * d % this.a != 1) {
