@@ -184,6 +184,7 @@ public class RSA {
         }
         return rand;
     }
+
     private long calculateD() {
         long d = 0;
         while (this.e * d % this.a != 1) {
